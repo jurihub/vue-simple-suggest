@@ -1,10 +1,10 @@
 {
   "name": "vue-simple-suggest",
   "description": "Feature-rich autocomplete component for Vue.js",
-  "version": "1.10.4",
+  "version": "1.10.4-jurihub",
   "author": "KazanExpress",
   "license": "MIT",
-  "repository": "KazanExpress/vue-simple-suggest",
+  "repository": "jurihub/vue-simple-suggest",
   "homepage": "https://kazanexpress.github.io/vue-simple-suggest/",
   "bugs": {
     "url": "https://github.com/KazanExpress/vue-simple-suggest/issues"

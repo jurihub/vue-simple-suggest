@@ -2,6 +2,8 @@
   <div class="vue-simple-suggest"
     :class="[styles.vueSimpleSuggest, { designed: !destyled, focus: isInFocus }]"
     @keydown.tab="isTabbed = true"
+    @mouseleave="hover(undefined)"
+    @mouseenter="hovered = true"
   >
     <div class="input-wrapper" ref="inputSlot"
       role="combobox"
@@ -20,7 +22,7 @@
         :aria-labelledby="listId"
         :class="styles.suggestions"
       >
-        <li v-if="!!this.$scopedSlots['misc-item-above']">
+        <li v-if="!!this.$scopedSlots['misc-item-above']" @mouseenter="hovered = true">
           <slot name="misc-item-above"
             :suggestions="suggestions"
             :query="text"
@@ -30,7 +32,6 @@
         <li class="suggest-item" v-for="(suggestion, index) in suggestions"
           role="option"
           @mouseenter="hover(suggestion, $event.target)"
-          @mouseleave="hover(undefined)"
           @click="suggestionClick(suggestion, $event)"
           :aria-selected="(isHovered(suggestion) || isSelected(suggestion)) ? 'true' : 'false'"
           :id="getId(suggestion, index)"
@@ -48,7 +49,7 @@
           </slot>
         </li>
 
-        <li v-if="!!this.$scopedSlots['misc-item-below']">
+        <li v-if="!!this.$scopedSlots['misc-item-below']" @mouseenter="hovered = true">
           <slot name="misc-item-below"
             :suggestions="suggestions"
             :query="text"
