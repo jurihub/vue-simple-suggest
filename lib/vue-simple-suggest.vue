@@ -674,6 +674,9 @@ export default {
   background-color: #fff;
   opacity: 1;
   z-index: 1000;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  max-height: calc(100vh - 200px);
 }
 
 .vue-simple-suggest.designed .suggestions .suggest-item {
