@@ -72,7 +72,9 @@ function _await(value, then, direct) {
     return recover(e);
   }if (result && result.then) {
     return result.then(void 0, recover);
-  }return result;
+  }
+
+  return result;
 }function _finally(body, finalizer) {
   try {
     var result = body();
@@ -83,22 +85,22 @@ function _await(value, then, direct) {
   }return finalizer();
 }var VueSimpleSuggest = {
   render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "vue-simple-suggest", class: [_vm.styles.vueSimpleSuggest, { designed: !_vm.destyled, focus: _vm.isInFocus }], on: { "keydown": function keydown($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "vue-simple-suggest", class: [_vm.styles.vueSimpleSuggest, { designed: !_vm.destyled, focus: _vm.isInFocus }], style: _vm.styleProperty.vueSimpleSuggest, on: { "keydown": function keydown($event) {
           if (!$event.type.indexOf('key') && _vm._k($event.keyCode, "tab", 9, $event.key, "Tab")) {
             return null;
           }_vm.isTabbed = true;
         }, "mouseleave": function mouseleave($event) {
           return _vm.hover(undefined);
-        } } }, [_c('div', { ref: "inputSlot", staticClass: "input-wrapper", class: _vm.styles.inputWrapper, attrs: { "role": "combobox", "aria-haspopup": "listbox", "aria-owns": _vm.listId, "aria-expanded": !!_vm.listShown && !_vm.removeList ? 'true' : 'false' } }, [_vm._t("default", [_c('input', _vm._b({ staticClass: "default-input", class: _vm.styles.defaultInput, domProps: { "value": _vm.text || '' } }, 'input', _vm.$attrs, false))])], 2), _vm._v(" "), _c('transition', { attrs: { "name": "vue-simple-suggest" } }, [!!_vm.listShown && !_vm.removeList ? _c('ul', { staticClass: "suggestions", class: _vm.styles.suggestions, attrs: { "id": _vm.listId, "role": "listbox", "aria-labelledby": _vm.listId } }, [!!this.$scopedSlots['misc-item-above'] ? _c('li', { on: { "mouseenter": function mouseenter($event) {
+        }, "mouseenter": function mouseenter($event) {
+          _vm.hovered = true;
+        } } }, [_c('div', { ref: "inputSlot", staticClass: "input-wrapper", class: _vm.styles.inputWrapper, style: _vm.styleProperty.inputWrapper, attrs: { "role": "combobox", "aria-haspopup": "listbox", "aria-owns": _vm.listId, "aria-expanded": !!_vm.listShown && !_vm.removeList ? 'true' : 'false' } }, [_vm._t("default", [_c('input', _vm._b({ staticClass: "default-input", class: _vm.styles.defaultInput, style: _vm.styleProperty.defaultInput, domProps: { "value": _vm.text || '' } }, 'input', _vm.$attrs, false))])], 2), _vm._v(" "), _c('transition', { attrs: { "name": "vue-simple-suggest" } }, [!!_vm.listShown && !_vm.removeList ? _c('ul', { staticClass: "suggestions", class: _vm.styles.suggestions, style: _vm.styleProperty.suggestions, attrs: { "id": _vm.listId, "role": "listbox", "aria-labelledby": _vm.listId } }, [!!this.$scopedSlots['misc-item-above'] ? _c('li', { on: { "mouseenter": function mouseenter($event) {
           _vm.hovered = true;
         } } }, [_vm._t("misc-item-above", null, { "suggestions": _vm.suggestions, "query": _vm.text })], 2) : _vm._e(), _vm._v(" "), _vm._l(_vm.suggestions, function (suggestion, index) {
       return _c('li', { key: _vm.getId(suggestion, index), staticClass: "suggest-item", class: [_vm.styles.suggestItem, {
           selected: _vm.isSelected(suggestion),
           hover: _vm.isHovered(suggestion)
-        }], attrs: { "role": "option", "aria-selected": _vm.isHovered(suggestion) || _vm.isSelected(suggestion) ? 'true' : 'false', "id": _vm.getId(suggestion, index) }, on: { "mouseenter": function mouseenter($event) {
+        }], style: _vm.styleProperty.suggestItem, attrs: { "role": "option", "aria-selected": _vm.isHovered(suggestion) || _vm.isSelected(suggestion) ? 'true' : 'false', "id": _vm.getId(suggestion, index) }, on: { "mouseenter": function mouseenter($event) {
             return _vm.hover(suggestion, $event.target);
-          }, "mouseleave": function mouseleave($event) {
-            return _vm.hover(undefined);
           }, "click": function click($event) {
             return _vm.suggestionClick(suggestion, $event);
           } } }, [_vm._t("suggestion-item", [_c('span', [_vm._v(_vm._s(_vm.displayProperty(suggestion)))])], { "autocomplete": function autocomplete() {
@@ -116,6 +118,12 @@ function _await(value, then, direct) {
     event: 'input'
   },
   props: {
+    styleProperty: {
+      type: Object,
+      default: function _default() {
+        return {};
+      }
+    },
     styles: {
       type: Object,
       default: function _default() {
@@ -558,9 +566,7 @@ function _await(value, then, direct) {
       } else {
         this.inputElement.blur();
         console.error('This should never happen!\n          If you encountered this error, please make sure that your input component emits \'focus\' events properly.\n          For more info see https://github.com/KazanExpress/vue-simple-suggest#custom-input.\n\n          If your \'vue-simple-suggest\' setup does not include a custom input component - please,\n          report to https://github.com/KazanExpress/vue-simple-suggest/issues/new');
-      }
-
-      this.isTabbed = false;
+      }this.isTabbed = false;
     },
     onFocus: function onFocus(e) {
       this.isInFocus = true;

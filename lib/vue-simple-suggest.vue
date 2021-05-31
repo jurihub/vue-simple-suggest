@@ -1,6 +1,7 @@
 <template>
   <div class="vue-simple-suggest"
     :class="[styles.vueSimpleSuggest, { designed: !destyled, focus: isInFocus }]"
+    :style="styleProperty.vueSimpleSuggest"
     @keydown.tab="isTabbed = true"
     @mouseleave="hover(undefined)"
     @mouseenter="hovered = true"
@@ -10,26 +11,40 @@
       aria-haspopup="listbox"
       :aria-owns="listId"
       :aria-expanded="!!listShown && !removeList ? 'true' : 'false'"
-      :class="styles.inputWrapper">
+      :class="styles.inputWrapper"
+      :style="styleProperty.inputWrapper"
+    >
       <slot>
-        <input class="default-input" v-bind="$attrs" :value="text || ''"
-          :class="styles.defaultInput">
+        <input
+          class="default-input"
+          :class="styles.defaultInput"
+          :style="styleProperty.defaultInput"
+          v-bind="$attrs"
+          :value="text || ''"
+        >
       </slot>
     </div>
     <transition name="vue-simple-suggest">
-      <ul :id="listId" class="suggestions" v-if="!!listShown && !removeList"
+      <ul
+        :id="listId"
+        class="suggestions"
+        v-if="!!listShown && !removeList"
         role="listbox"
         :aria-labelledby="listId"
         :class="styles.suggestions"
+        :style="styleProperty.suggestions"
       >
         <li v-if="!!this.$scopedSlots['misc-item-above']" @mouseenter="hovered = true">
-          <slot name="misc-item-above"
+          <slot
+            name="misc-item-above"
             :suggestions="suggestions"
             :query="text"
-          ></slot>
+          />
         </li>
 
-        <li class="suggest-item" v-for="(suggestion, index) in suggestions"
+        <li
+          class="suggest-item"
+          v-for="(suggestion, index) in suggestions"
           role="option"
           @mouseenter="hover(suggestion, $event.target)"
           @click="suggestionClick(suggestion, $event)"
@@ -38,9 +53,12 @@
           :key="getId(suggestion, index)"
           :class="[
             styles.suggestItem,{
-            selected: isSelected(suggestion),
-            hover: isHovered(suggestion)
-            }]">
+              selected: isSelected(suggestion),
+              hover: isHovered(suggestion)
+            }
+          ]"
+          :style="styleProperty.suggestItem"
+        >
           <slot name="suggestion-item"
             :autocomplete="() => autocompleteText(suggestion)"
             :suggestion="suggestion"
@@ -53,14 +71,14 @@
           <slot name="misc-item-below"
             :suggestions="suggestions"
             :query="text"
-          ></slot>
+          />
         </li>
       </ul>
     </transition>
   </div>
 </template>
 
-<script>
+<script scoped>
 import {
   defaultControls,
   modes,
@@ -77,6 +95,10 @@ export default {
     event: 'input'
   },
   props: {
+    styleProperty: {
+      type: Object,
+      default: () => ({})
+    },
     styles: {
       type: Object,
       default: () => ({})
@@ -631,48 +653,16 @@ export default {
 </script>
 
 <style>
-
-.vue-simple-suggest > ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
 .vue-simple-suggest.designed {
   position: relative;
 }
 
-.vue-simple-suggest.designed, .vue-simple-suggest.designed * {
-  box-sizing: border-box;
-}
-
-.vue-simple-suggest.designed .input-wrapper input {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #cde;
-  border-radius: 3px;
-  color: black;
-  background: white;
-  outline:none;
-  transition: all .1s;
-  transition-delay: .05s
-}
-
-.vue-simple-suggest.designed.focus .input-wrapper input {
-  border: 1px solid #aaa;
-}
 
 .vue-simple-suggest.designed .suggestions {
   position: absolute;
   left: 0;
   right: 0;
-  top: 100%;
-  top: calc(100% + 5px);
-  border-radius: 3px;
-  border: 1px solid #aaa;
   background-color: #fff;
-  opacity: 1;
   z-index: 1000;
   overflow-x: hidden;
   overflow-y: scroll;
@@ -680,22 +670,6 @@ export default {
 }
 
 .vue-simple-suggest.designed .suggestions .suggest-item {
-  cursor: pointer;
   user-select: none;
-}
-
-.vue-simple-suggest.designed .suggestions .suggest-item,
-.vue-simple-suggest.designed .suggestions .misc-item {
-  padding: 5px 10px;
-}
-
-.vue-simple-suggest.designed .suggestions .suggest-item.hover {
-  background-color: #2874D5 !important;
-  color: #fff !important;
-}
-
-.vue-simple-suggest.designed .suggestions .suggest-item.selected {
-  background-color: #2832D5;
-  color: #fff;
 }
 </style>
