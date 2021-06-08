@@ -53,7 +53,8 @@ function _await(value, then, direct) {
   }if (!value || !value.then) {
     value = Promise.resolve(value);
   }return then ? value.then(then) : value;
-}function _empty() {}function _awaitIgnored(value, direct) {
+}
+function _empty() {}function _awaitIgnored(value, direct) {
   if (!direct) {
     return value && value.then ? value.then(_empty) : Promise.resolve();
   }
@@ -72,9 +73,7 @@ function _await(value, then, direct) {
     return recover(e);
   }if (result && result.then) {
     return result.then(void 0, recover);
-  }
-
-  return result;
+  }return result;
 }function _finally(body, finalizer) {
   try {
     var result = body();
@@ -191,6 +190,10 @@ function _await(value, then, direct) {
       validator: function validator(value) {
         return !!~Object.keys(modes).indexOf(value.toLowerCase());
       }
+    },
+    preventHide: {
+      type: Boolean,
+      default: false
     }
   },
   // Handle run-time mode changes (now working):
@@ -538,7 +541,8 @@ function _await(value, then, direct) {
     suggestionClick: function suggestionClick(suggestion, e) {
       this.$emit('suggestion-click', suggestion, e);
       this.select(suggestion);
-      this.hideList();
+
+      if (!this.preventHide) this.hideList();
 
       /// Ensure, that all needed flags are off before finishing the click.
       this.isClicking = false;
@@ -566,7 +570,9 @@ function _await(value, then, direct) {
       } else {
         this.inputElement.blur();
         console.error('This should never happen!\n          If you encountered this error, please make sure that your input component emits \'focus\' events properly.\n          For more info see https://github.com/KazanExpress/vue-simple-suggest#custom-input.\n\n          If your \'vue-simple-suggest\' setup does not include a custom input component - please,\n          report to https://github.com/KazanExpress/vue-simple-suggest/issues/new');
-      }this.isTabbed = false;
+      }
+
+      this.isTabbed = false;
     },
     onFocus: function onFocus(e) {
       this.isInFocus = true;
@@ -598,8 +604,7 @@ function _await(value, then, direct) {
       if (this.hovered) this.hover(null);
 
       if (this.text.length < this.minLength) {
-        this.hideList();
-        return;
+        this.hideList();return;
       }
 
       if (this.debounce) {
@@ -663,6 +668,7 @@ function _await(value, then, direct) {
           _this12.$emit('request-start', value);
         }
 
+        var nextIsPlainSuggestion = false;
         var result = [];
         return _finally(function () {
           return _catch(function () {
@@ -681,7 +687,7 @@ function _await(value, then, direct) {
                 result = [result];
               }
 
-              _this12.isPlainSuggestion = _typeof(result[0]) !== 'object' || Array.isArray(result[0]);
+              nextIsPlainSuggestion = _typeof(result[0]) !== 'object' && typeof result[0] !== 'undefined' || Array.isArray(result[0]);
 
               if (_this12.filterByQuery) {
                 result = result.filter(function (el) {
@@ -705,6 +711,7 @@ function _await(value, then, direct) {
             result.splice(_this12.maxSuggestions);
           }
 
+          _this12.isPlainSuggestion = nextIsPlainSuggestion;
           return result;
         });
       } catch (e) {

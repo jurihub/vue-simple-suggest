@@ -47,7 +47,8 @@ function _await(value, then, direct) {
       return Promise.reject(e);
     }
   };
-}function _empty() {}function _awaitIgnored(value, direct) {
+}
+function _empty() {}function _awaitIgnored(value, direct) {
   if (!direct) {
     return value && value.then ? value.then(_empty) : Promise.resolve();
   }
@@ -66,9 +67,7 @@ function _await(value, then, direct) {
     return recover(e);
   }if (result && result.then) {
     return result.then(void 0, recover);
-  }
-
-  return result;
+  }return result;
 }function _finally(body, finalizer) {
   try {
     var result = body();
@@ -175,6 +174,10 @@ function _await(value, then, direct) {
       type: String,
       default: 'input',
       validator: value => !!~Object.keys(modes).indexOf(value.toLowerCase())
+    },
+    preventHide: {
+      type: Boolean,
+      default: false
     }
   },
   // Handle run-time mode changes (now working):
@@ -502,7 +505,8 @@ function _await(value, then, direct) {
     suggestionClick(suggestion, e) {
       this.$emit('suggestion-click', suggestion, e);
       this.select(suggestion);
-      this.hideList();
+
+      if (!this.preventHide) this.hideList();
 
       /// Ensure, that all needed flags are off before finishing the click.
       this.isClicking = false;
@@ -533,7 +537,9 @@ function _await(value, then, direct) {
 
           If your 'vue-simple-suggest' setup does not include a custom input component - please,
           report to https://github.com/KazanExpress/vue-simple-suggest/issues/new`);
-      }this.isTabbed = false;
+      }
+
+      this.isTabbed = false;
     },
     onFocus(e) {
       this.isInFocus = true;
@@ -565,8 +571,7 @@ function _await(value, then, direct) {
       if (this.hovered) this.hover(null);
 
       if (this.text.length < this.minLength) {
-        this.hideList();
-        return;
+        this.hideList();return;
       }
 
       if (this.debounce) {
@@ -625,6 +630,7 @@ function _await(value, then, direct) {
         _this4.$emit('request-start', value);
       }
 
+      let nextIsPlainSuggestion = false;
       let result = [];
       return _finally(function () {
         return _catch(function () {
@@ -643,7 +649,7 @@ function _await(value, then, direct) {
               result = [result];
             }
 
-            _this4.isPlainSuggestion = typeof result[0] !== 'object' || Array.isArray(result[0]);
+            nextIsPlainSuggestion = typeof result[0] !== 'object' && typeof result[0] !== 'undefined' || Array.isArray(result[0]);
 
             if (_this4.filterByQuery) {
               result = result.filter(el => _this4.filter(el, value));
@@ -665,6 +671,7 @@ function _await(value, then, direct) {
           result.splice(_this4.maxSuggestions);
         }
 
+        _this4.isPlainSuggestion = nextIsPlainSuggestion;
         return result;
       });
     }),

@@ -129,6 +129,10 @@ var VueSimpleSuggest = {
       type: String,
       default: 'input',
       validator: value => !!~Object.keys(modes).indexOf(value.toLowerCase())
+    },
+    preventHide: {
+      type: Boolean,
+      default: false
     }
   },
   // Handle run-time mode changes (now working):
@@ -446,7 +450,8 @@ var VueSimpleSuggest = {
     suggestionClick(suggestion, e) {
       this.$emit('suggestion-click', suggestion, e);
       this.select(suggestion);
-      this.hideList();
+
+      if (!this.preventHide) this.hideList();
 
       /// Ensure, that all needed flags are off before finishing the click.
       this.isClicking = false;
@@ -563,6 +568,7 @@ var VueSimpleSuggest = {
         this.$emit('request-start', value);
       }
 
+      let nextIsPlainSuggestion = false;
       let result = [];
       try {
         if (this.listIsRequest) {
@@ -576,7 +582,7 @@ var VueSimpleSuggest = {
           result = [result];
         }
 
-        this.isPlainSuggestion = typeof result[0] !== 'object' || Array.isArray(result[0]);
+        nextIsPlainSuggestion = typeof result[0] !== 'object' && typeof result[0] !== 'undefined' || Array.isArray(result[0]);
 
         if (this.filterByQuery) {
           result = result.filter(el => this.filter(el, value));
@@ -596,6 +602,7 @@ var VueSimpleSuggest = {
           result.splice(this.maxSuggestions);
         }
 
+        this.isPlainSuggestion = nextIsPlainSuggestion;
         return result;
       }
     },

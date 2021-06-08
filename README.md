@@ -52,7 +52,7 @@ See [installation guide](#installation) for more options.
         - [Custom input](#custom-input)
         - [Accessibility on custom input](#accessibility-on-custom-input)
         - [Custom suggestion item](#custom-suggestion-item)
-        - [Custom miscellanious item slots](#custom-miscellanious-item-slots)
+        - [Custom miscellaneous item slots](#custom-miscellaneous-item-slots)
   - [Contributors](#contributors)
 
 
@@ -512,7 +512,8 @@ You can also define custom list transitions by defining css rules for the transi
 | `filter` | Function | - | A custom function for filtering the suggestion results that accepts a single item and a query to filter by as its 2 arguments. Used only if `filter-by-query` is set to `true`. |
 | `mode` <sup>[v1.4.0](https://github.com/KazanExpress/vue-simple-suggest/releases/tag/v1.4.0)</sup>                         | String | `'input'` | The `v-model` event. Determines the event, that triggers `v-model`. Can be one of `'input'` (`v-model` binds a displayed property) or `'select'` (`v-model` binds a selected item). |
 | `type`, `value`, `pattern`, etc...   |          |            | All of the HTML5 input attributes with their respected default values. |
-| `nullable-select` <sup>[v1.9.0](https://github.com/KazanExpress/vue-simple-suggest/releases/tag/v1.4.0)</sup>                    | Boolean  | `false`    | Whether the `select` should accept `null` or not. |
+| `nullable-select` <sup>[v1.9.0](https://github.com/KazanExpress/vue-simple-suggest/releases/tag/v1.9.0)</sup>                    | Boolean  | `false`    | Whether the `select` should accept `null` or not. |
+|`preventHide` <sup>[v1.11.0](https://github.com/KazanExpress/vue-simple-suggest/releases/tag/v1.11.0)</sup>|Boolean|`false`|Whether to keep the input open or not, allowing the user to select multiple inputs|
 
 ##### mode
 > New in [v1.4.0](https://github.com/KazanExpress/vue-simple-suggest/releases/tag/v1.4.0)
@@ -808,7 +809,7 @@ Result via Google Books search API:
 
 ![](assets/screenshot.jpg)
 
-##### Custom miscellanious item slots
+##### Custom miscellaneous item slots
 > `misc-item-above` and `misc-item-below` slots (optional)
 
 Allow custom elements to be shown in suggestion list. These elements never dissapear from the list, neither can they be selected nor hovered on.
