@@ -592,9 +592,8 @@ function _empty() {}function _awaitIgnored(value, direct) {
               // @TODO: fix when promises will be cancelable (never :D)
               let textBeforeRequest = _this3.text;
               return _await(_this3.getSuggestions(_this3.text), function (newList) {
-                if (textBeforeRequest === _this3.text) {
-                  _this3.$set(_this3, 'suggestions', newList);
-                }
+
+                _this3.$set(_this3, 'suggestions', newList);
               });
             }
           });

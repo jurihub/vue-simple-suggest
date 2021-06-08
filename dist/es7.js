@@ -535,9 +535,7 @@ var VueSimpleSuggest = {
           let textBeforeRequest = this.text;
           let newList = await this.getSuggestions(this.text);
 
-          if (textBeforeRequest === this.text) {
-            this.$set(this, 'suggestions', newList);
-          }
+          this.$set(this, 'suggestions', newList);
         }
       } catch (e) {
         this.clearSuggestions();

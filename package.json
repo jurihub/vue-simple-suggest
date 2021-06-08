@@ -1,7 +1,7 @@
 {
   "name": "vue-simple-suggest",
   "description": "Feature-rich autocomplete component for Vue.js",
-  "version": "1.11.0-jurihub",
+  "version": "1.11.1-jurihub",
   "author": "KazanExpress",
   "license": "MIT",
   "repository": "jurihub/vue-simple-suggest",
